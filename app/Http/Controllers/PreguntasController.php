@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Opcion;
 use App\Models\Pregunta;
 use Illuminate\Http\Request;
 
@@ -32,5 +33,17 @@ class PreguntasController extends Controller
         }
 
         return redirect()->route('preguntas.index')->with('success', 'Pregunta creada.');
+    }
+
+    public function vote(Opcion $option)
+    {
+        $option->votes()->create();
+        return back()->with('success', '¡Gracias por tu voto!');
+    }
+
+    public function show(Pregunta $question)
+    {
+        $question->load('options.votes');
+        return view('preguntas.show', compact('question'));
     }
 }

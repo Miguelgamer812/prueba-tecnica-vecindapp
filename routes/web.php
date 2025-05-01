@@ -14,3 +14,5 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/preguntas/create', [PreguntasController::class, 'create'])->name('preguntas.create');
 Route::post('/preguntas', [PreguntasController::class, 'store'])->name('preguntas.store');
 Route::get('/preguntas/index', [PreguntasController::class, 'index'])->name('preguntas.index');
+Route::post('/voto/{option}', [PreguntasController::class, 'vote'])->name('preguntas.vote');
+Route::get('/preguntas/{question}', [PreguntasController::class, 'show'])->name('preguntas.show');

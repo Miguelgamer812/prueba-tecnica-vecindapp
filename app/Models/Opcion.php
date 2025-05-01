@@ -17,4 +17,9 @@ class Opcion extends Model
     {
         return $this->belongsTo(Pregunta::class);
     }
+
+    public function votes()
+    {
+        return $this->hasMany(Voto::class);
+    }
 }
