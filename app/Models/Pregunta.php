@@ -10,11 +10,11 @@ class Pregunta extends Model
     use HasFactory;
 
     protected $fillable = [
-        'text', // agrega esto
+        'text',
     ];
 
     public function options()
     {
-        return $this->hasMany(Opcion::class); // si usas el modelo en español
+        return $this->hasMany(Opcion::class);
     }
 }

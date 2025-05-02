@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('votos', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('option_id')->constrained()->onDelete('cascade'); // ← este nombre debe ser 'option_id'
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->timestamps();
-        });
+        // Schema::create('votos', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->foreignId('option_id')->constrained()->onDelete('cascade'); // ← este nombre debe ser 'option_id'
+        //     $table->foreignId('user_id')->constrained()->onDelete('cascade');
+        //     $table->timestamps();
+        // });
     }
 
     /**
