@@ -1,3 +1,6 @@
+@extends('layouts.app')
+
+@section('content')
 <form method="POST" action="{{ route('preguntas.store') }}">
     @csrf
 
@@ -13,7 +16,7 @@
 
     <button type="submit">Guardar</button>
 </form>
-
+@endsection
 <script>
     function addOption() {
         const container = document.querySelector('#options-container');
