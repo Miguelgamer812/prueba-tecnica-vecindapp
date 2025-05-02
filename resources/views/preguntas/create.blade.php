@@ -1,21 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-<form method="POST" action="{{ route('preguntas.store') }}">
-    @csrf
+    @can('can_create_questions')
+        <form method="POST" action="{{ route('preguntas.store') }}">
+            @csrf
 
-    <label>Pregunta:</label>
-    <input type="text" name="text" required>
+            <label>Pregunta:</label>
+            <input type="text" name="text" required>
 
-    <div id="options-container">
-        <label>Opción:</label>
-        <input type="text" name="options[]" required>
-    </div>
+            <div id="options-container">
+                <label>Opción:</label>
+                <input type="text" name="options[]" required>
+            </div>
 
-    <button type="button" onclick="addOption()">Agregar otra opción</button>
+            <button type="button" onclick="addOption()">Agregar otra opción</button>
 
-    <button type="submit">Guardar</button>
-</form>
+            <button type="submit">Guardar</button>
+        </form>
+    @endcan
 @endsection
 <script>
     function addOption() {

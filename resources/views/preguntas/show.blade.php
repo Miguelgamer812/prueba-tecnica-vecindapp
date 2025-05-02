@@ -1,30 +1,26 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2>{{ $question->text }}</h2>
+    @can('can_see_results')
+    <div class="m-5 p-5">
+        <h1>Preguntas</h1>
+        @foreach ($preguntas as $pregunta)
+            <h2>{{ $pregunta->text }}</h2>
 
-    <ul>
-        @foreach ($question->options as $option)
-            <li>
-                <form method="POST" action="{{ route('questions.vote', $option) }}">
-                    @csrf
-                    <button type="submit">{{ $option->text }}</button>
-                </form>
-                <small>{{ $option->votes->count() }} votos</small>
-            </li>
+            @php
+                $totalVotes = $pregunta->opciones->sum(fn($opt) => $opt->votes->count());
+            @endphp
+
+            @foreach ($pregunta->opciones as $opcion)
+                @php
+                    $count = $opcion->votes->count();
+                    $percent = $totalVotes > 0 ? round(($count / $totalVotes) * 100, 2) : 0;
+                @endphp
+                <p>{{ $opcion->text }}: {{ $percent }}% ({{ $count }} votos)</p>
+            @endforeach
+
+            <hr>
         @endforeach
-    </ul>
-
-    <!-- Estadísticas en porcentaje -->
-    <h3>Estadísticas:</h3>
-    @php
-        $totalVotes = $question->options->sum(fn($opt) => $opt->votes->count());
-    @endphp
-    @foreach ($question->options as $option)
-        @php
-            $count = $option->votes->count();
-            $percent = $totalVotes > 0 ? round(($count / $totalVotes) * 100, 2) : 0;
-        @endphp
-        <p>{{ $option->text }}: {{ $percent }}% ({{ $count }} votos)</p>
-    @endforeach
+    @endcan
+</div>
 @endsection

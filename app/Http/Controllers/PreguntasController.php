@@ -37,39 +37,46 @@ class PreguntasController extends Controller
         return redirect()->route('preguntas.index')->with('success', 'Pregunta creada.');
     }
 
-    // public function vote(Opcion $option) Deprecated
-    // {
-    //     $option->votes()->create();
-    //     return back()->with('success', '¡Gracias por tu voto!');
-    // }
-    public function vote(Request $request, Opcion $option)
+    public function userVote(Opcion $option)
+    {
+        $preguntas = Pregunta::get();
+        $opciones = Opcion::get();
+        return view('votar.index', ['preguntas' => $preguntas, 'opciones' => $opciones]);
+    }
+    public function vote(Request $request, Opcion $option, $id)
     {
         $user = Auth::user();
-        $preguntaId = $option->pregunta_id ?? $option->question_id;
+        $preguntaId = $id;
 
-        // Verifica si ya votó por esa pregunta
+        // Validar que el usuario no haya votado ya por esta pregunta
         $yaVoto = Voto::where('user_id', $user->id)
-            ->whereHas('option', function ($q) use ($preguntaId) {
-                $q->where('pregunta_id', $preguntaId);
-            })
+            ->where('pregunta_id', $preguntaId)
             ->exists();
 
         if ($yaVoto) {
             return back()->with('error', 'Ya has votado en esta pregunta.');
         }
 
-        // Registrar el voto
-        $option->votes()->create([
-            'user_id' => $user->id
+        $request->validate([
+            'opcion' => 'required|exists:opcions,id',
         ]);
 
-        return back()->with('success', '¡Gracias por votar!');
+        // Registrar el voto
+        Voto::create([
+            'option_id' => $request->opcion,
+            'user_id' => $user->id,
+            'pregunta_id' => $preguntaId,
+        ]);
+
+        return redirect()->route('home')->with('message', 'Tu voto ha sido registrado.');
     }
 
 
-    public function show(Pregunta $question)
+
+    public function show()
     {
-        $question->load('options.votes');
-        return view('preguntas.show', compact('question'));
+        $preguntas = Pregunta::with('opciones.votes')->get();
+
+        return view('preguntas.show', compact('preguntas'));
     }
 }
