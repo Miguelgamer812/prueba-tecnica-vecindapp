@@ -2,6 +2,19 @@
 
 @section('content')
     <div class="container">
+        <!-- Mostrar mensaje de error -->
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        <!-- Mostrar mensaje de éxito -->
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
@@ -13,14 +26,24 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-                        @can('can_create_questions')
+
+                        @can('can_create_questions', 'can_see_results')
                             <form action="{{ route('preguntas.index') }}">
-                                <input type="submit" value="Crear pregunta">
+                                <input type="submit" value="preguntas">
                             </form>
                         @endcan
-                        <form action="{{ route('users.create') }}">
-                            <input type="submit" value="Crear usuarios">
-                        </form>
+
+                        @can('can_create_users')
+                            <form action="{{ route('users.create') }}">
+                                <input type="submit" value="Crear usuarios">
+                            </form>
+                        @endcan
+
+                        @can('can_vote')
+                            <form action="{{ route('voto.user') }}">
+                                <input type="submit" value="Votar">
+                            </form>
+                        @endcan
                     </div>
                 </div>
             </div>
