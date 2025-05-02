@@ -19,7 +19,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/questions/index', [PreguntasController::class, 'index'])->name('preguntas.index');
     Route::post('/voto/{id}', [PreguntasController::class, 'vote'])->name('voto.store');
     Route::get('/voto', [PreguntasController::class, 'userVote'])->name('voto.user');
-    Route::get('/questions/{question}', [PreguntasController::class, 'show'])->name('preguntas.show');
+    Route::get('/questions/view', [PreguntasController::class, 'show'])->name('preguntas.show');
     Route::get('/users/create', [userCreateController::class, 'index'])->name('users.create');
     Route::post('/users/create', [userCreateController::class, 'create'])->name('new.users.create');
     

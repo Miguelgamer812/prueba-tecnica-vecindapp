@@ -46,7 +46,7 @@ class PreguntasController extends Controller
     public function vote(Request $request, Opcion $option, $id)
     {
         $user = Auth::user();
-        $preguntaId = $option->pregunta_id;
+        $preguntaId = $id;
 
         // Validar que el usuario no haya votado ya por esta pregunta
         $yaVoto = Voto::where('user_id', $user->id)
@@ -73,12 +73,10 @@ class PreguntasController extends Controller
 
 
 
-    public function show($id)
+    public function show()
     {
-        // Obtener la pregunta y sus opciones
-        $pregunta = Pregunta::findOrFail($id);
-        $opciones = $pregunta->opciones;
+        $preguntas = Pregunta::with('opciones.votes')->get();
 
-        return view('preguntas.show', compact('pregunta', 'opciones'));
+        return view('preguntas.show', compact('preguntas'));
     }
 }

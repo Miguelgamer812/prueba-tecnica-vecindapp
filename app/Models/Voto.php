@@ -8,6 +8,11 @@ class Voto extends Model
 {
     public function option()
     {
-        return $this->belongsTo(Opcion::class);
+        return $this->belongsTo(Opcion::class, 'option_id');
     }
+    protected $fillable = [
+        'option_id',
+        'user_id',
+        'pregunta_id',
+    ];
 }

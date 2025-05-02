@@ -10,7 +10,7 @@
     @can('can_see_results')
         <h2>Ver votos</h2>
         <form action="{{ route('preguntas.show', [2]) }}">
-            <input type="submit" value="Ver pregunta">
+            <input type="submit" value="Ver respuestas">
         </form>
     @endcan
 @endsection

@@ -20,6 +20,6 @@ class Opcion extends Model
 
     public function votes()
     {
-        return $this->hasMany(Voto::class);
+        return $this->hasMany(Voto::class, 'option_id');
     }
 }

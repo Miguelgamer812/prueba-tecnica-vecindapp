@@ -27,11 +27,11 @@
                             </div>
                         @endif
 
-                        @can('can_create_questions', 'can_see_results')
+                        @if(auth()->user()->can('can_create_questions') && ('can_see_results'))
                             <form action="{{ route('preguntas.index') }}">
                                 <input type="submit" value="preguntas">
                             </form>
-                        @endcan
+                        @endif
 
                         @can('can_create_users')
                             <form action="{{ route('users.create') }}">
